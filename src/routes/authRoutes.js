@@ -3,7 +3,7 @@ import { register, login, getUserFromToken } from '../controllers/authController
 
 const router = express.Router();
 
-router.post('/signup', register);
+router.post('/register-user', register);  // 👈 Matches frontend
 router.post('/login', login);
 router.post('/get-user', getUserFromToken);  // ✅ Add this line
 

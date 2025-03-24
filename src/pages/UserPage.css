@@ -1,53 +1,130 @@
 .user-container {
-    padding: 20px;
-    max-width: 600px;
-    margin: auto;
-    font-family: Arial, sans-serif;
-    text-align: center;
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  background-color: #f0fdf4;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 128, 0, 0.1);
+  margin-top: 30px;
+}
+
+h1 {
+  color: #228B22;
+  margin-bottom: 25px;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.billing-card {
+  border: 1px solid #d4d4d4;
+  border-radius: 12px;
+  padding: 25px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(34, 139, 34, 0.1);
+  margin-top: 30px;
+  transition: transform 0.3s ease;
+}
+
+.billing-card:hover {
+  transform: translateY(-5px);
+}
+
+.billing-card h2 {
+  margin-bottom: 20px;
+  color: #2e7d32;
+  font-size: 1.5rem;
+}
+
+.filter-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.filter-controls select {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  background-color: #f9fff9;
+  transition: border 0.3s ease;
+}
+
+.filter-controls select:focus {
+  border-color: green;
+  outline: none;
+}
+
+.export-btn, .request-btn {
+  padding: 12px 20px;
+  background-color: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  font-weight: bold;
+}
+
+.export-btn:hover, .request-btn:hover {
+  background-color: #1b5e20;
+  transform: scale(1.05);
+}
+
+.request-btn:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
+
+.billing-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  overflow-x: auto;
+}
+
+.billing-table th, .billing-table td {
+  border: 1px solid #ccc;
+  padding: 12px 10px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.billing-table th {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.billing-table td {
+  background-color: #f9fff9;
+  color: #444;
+}
+
+@media (max-width: 768px) {
+  .user-container {
+    padding: 15px;
   }
-  
-  .user-container h1 {
-    color: green;
-    margin-bottom: 20px;
+
+  h1 {
+    font-size: 1.5rem;
   }
-  
+
   .billing-card {
-    border: 1px solid #ccc;
-    border-radius: 10px;
     padding: 20px;
-    background-color: #f9fff9;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
-  
-  .billing-card h2 {
-    margin-bottom: 15px;
-    color: #333;
+
+  .billing-table th, .billing-table td {
+    font-size: 13px;
+    padding: 8px;
   }
-  
-  .billing-card p {
-    font-size: 16px;
-    margin: 8px 0;
-    color: #444;
+
+  .export-btn, .request-btn {
+    width: 100%;
+    padding: 10px;
   }
-  
-  .request-btn {
-    margin-top: 20px;
-    padding: 12px 20px;
-    font-size: 16px;
-    background-color: green;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  
-  .request-btn:hover {
-    background-color: darkgreen;
-  }
-  
-  .request-btn:disabled {
-    background-color: gray;
-    cursor: not-allowed;
-  }
-  
+}

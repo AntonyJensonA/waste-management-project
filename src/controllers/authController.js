@@ -3,8 +3,6 @@ import { loginUser, registerUser} from "../services/authService.js";
 import { getUserFromToken as getUserFromTokenService } from "../services/authService.js";
 
 
-
-
 export const register = async (req, res) => {
     const { fullname, houseno, email, password } = req.body;
 

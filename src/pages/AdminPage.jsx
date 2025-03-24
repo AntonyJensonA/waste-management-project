@@ -1,107 +1,174 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './AdminPage.css';
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+import { toast } from 'react-toastify';
 
 const AdminPage = () => {
-  
-  const [houseData, setHouseData] = useState([
-    {
-      house_number: 101,
-      user_name: 'John Doe',
-      collection_request: true,
-      amount_paid: 500,
-      bill_no: 'B123',
-      billing_month: 'March'
-    },
-    {
-      house_number: 102,
-      user_name: 'Jane Smith',
-      collection_request: false,
-      amount_paid: 450,
-      bill_no: 'B124',
-      billing_month: 'March'
-    }
-  ]);
+  const [wasteData, setWasteData] = useState([]);
+  const [billingData, setBillingData] = useState([]);
+  const [costData, setCostData] = useState({ fuel_cost: 0, labor_cost: 0, other_cost: 0 });
+  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedMonth, setSelectedMonth] = useState('');
 
+  // Fetch data
+  useEffect(() => {
+    axios.get('http://localhost:3000/api/waste')
+      .then(res => setWasteData(res.data))
+      .catch(() => toast.error('Failed to fetch waste data'));
+
+    axios.get('http://localhost:3000/api/billing')
+      .then(res => setBillingData(res.data))
+      .catch(() => toast.error('Failed to fetch billing data'));
+
+    axios.get('http://localhost:3000/api/costs')
+      .then(res => setCostData(res.data))
+      .catch(() => toast.error('Failed to fetch cost data'));
+  }, []);
+
+  // Filtered waste data for selected date
+  const filteredWasteData = wasteData.filter(w => {
+    if (!selectedDate) return true;
+    const selected = new Date(selectedDate);
+    return (
+      w.day === selected.getDate() &&
+      w.month === (selected.getMonth() + 1) &&
+      w.year === selected.getFullYear()
+    );
+  });
   
-  const [financeData, setFinanceData] = useState([
-    {
-      month: 'March',
-      amount_received: 2000,
-      fuel_cost: 300,
-      labour_cost: 500,
-      transport_cost: 200
-    }
-  ]);
+  // Filtered billing data for selected month
+  const filteredBillingData = billingData.filter(b => {
+    if (!b.bill_date || !selectedMonth) return true;
+    const billDate = new Date(b.bill_date);
+    const [year, month] = selectedMonth.split('-').map(Number);
+    return billDate.getFullYear() === year && billDate.getMonth() + 1 === month;
+  });
+
+  // Waste calculations
+  const totalWaste = filteredWasteData.reduce((sum, w) =>
+    sum + (parseFloat(w.plastic_kg) || 0) + (parseFloat(w.electronic_kg) || 0) + (parseFloat(w.bio_kg) || 0), 0
+  );
+
+  const totalRecyclable = filteredWasteData.reduce((sum, w) =>
+    sum + (parseFloat(w.plastic_kg) || 0) + (parseFloat(w.electronic_kg) || 0), 0
+  );
+
+  const totalAmount = filteredWasteData.reduce((sum, w) =>
+    sum + (parseFloat(w.amount) || 0), 0
+  );
+
+  const recyclePercentage = totalWaste > 0 ? (totalRecyclable / totalWaste) * 100 : 0;
+
+  const totalCost = (parseFloat(costData.fuel_cost) || 0) + (parseFloat(costData.labor_cost) || 0) + (parseFloat(costData.other_cost) || 0);
+  const totalProfit = totalAmount - totalCost;
+
+  const handleCostChange = (e) => {
+    const { name, value } = e.target;
+    setCostData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSaveCosts = () => {
+    axios.post('http://localhost:3000/api/costs', costData)
+      .then(() => toast.success('Costs updated'))
+      .catch(() => toast.error('Failed to update costs'));
+  };
 
   return (
     <div className="admin-container">
       <h1>🏡 Admin Dashboard</h1>
 
-      <h2>House Details</h2>
+      {/* Filters */}
+      <div className="filter-container">
+        <label>
+          📅 Filter by Date:
+          <input type="date" value={selectedDate} onChange={e => setSelectedDate(e.target.value)} />
+        </label>
+
+        <label>
+          📆 Filter Billing by Month:
+          <input type="month" value={selectedMonth} onChange={e => setSelectedMonth(e.target.value)} />
+        </label>
+      </div>
+
+      {/* Gauges */}
+      <div className="gauges-container">
+        <div className="gauge-card">
+          <h3>♻️ Recyclable %</h3>
+          <CircularProgressbar
+            value={recyclePercentage || 0}
+            text={`${recyclePercentage.toFixed(1)}%`}
+            styles={buildStyles({ textColor: "#0f5132", pathColor: "#198754", trailColor: "#d6d6d6" })}
+          />
+        </div>
+
+        <div className="gauge-card">
+          <h3>🗑️ Total Waste (kg)</h3>
+          <CircularProgressbar
+            value={totalWaste || 0}
+            maxValue={1000}
+            text={`${totalWaste.toFixed(1)} kg`}
+            styles={buildStyles({ textColor: "#084298", pathColor: "#0d6efd", trailColor: "#d6d6d6" })}
+          />
+        </div>
+
+        <div className="gauge-card">
+          <h3>💰 Amount Gained</h3>
+          <CircularProgressbar
+            value={totalAmount || 0}
+            maxValue={10000}
+            text={`₹${totalAmount.toFixed(1)}`}
+            styles={buildStyles({ textColor: "#842029", pathColor: "#dc3545", trailColor: "#d6d6d6" })}
+          />
+        </div>
+
+        <div className="gauge-card">
+          <h3>📊 Total Profit</h3>
+          <CircularProgressbar
+            value={totalProfit > 0 ? totalProfit : 0}
+            maxValue={10000}
+            text={`₹${totalProfit.toFixed(1)}`}
+            styles={buildStyles({ textColor: "#000", pathColor: "#ffc107", trailColor: "#d6d6d6" })}
+          />
+        </div>
+      </div>
+
+      {/* Cost Management */}
+      <div className="cost-form">
+        <h2>🧾 Cost Management</h2>
+        <label>Fuel Cost: ₹ <input type="number" name="fuel_cost" value={costData.fuel_cost} onChange={handleCostChange} /></label>
+        <label>Labor Cost: ₹ <input type="number" name="labor_cost" value={costData.labor_cost} onChange={handleCostChange} /></label>
+        <label>Other Cost: ₹ <input type="number" name="other_cost" value={costData.other_cost} onChange={handleCostChange} /></label>
+        <button onClick={handleSaveCosts}>💾 Save Costs</button>
+      </div>
+
+      {/* Billing Table */}
+      <h2>💵 Billing Details</h2>
       <table className="admin-table">
         <thead>
           <tr>
-            <th>House #</th>
-            <th>User Name</th>
-            <th>Request</th>
-            <th>Amount Paid</th>
+            <th>Full Name</th>
+            <th>House No</th>
             <th>Bill No</th>
-            <th>Month</th>
+            <th>Bill Date</th>
+            <th>Bill Amount (₹)</th>
           </tr>
         </thead>
         <tbody>
-          {houseData.map((house, idx) => (
+          {filteredBillingData.map((b, idx) => (
             <tr key={idx}>
-              <td>{house.house_number}</td>
-              <td><input value={house.user_name} /></td>
-              <td>
-                <select defaultValue={house.collection_request ? 'Yes' : 'No'}>
-                  <option>Yes</option>
-                  <option>No</option>
-                </select>
-              </td>
-              <td><input value={house.amount_paid} /></td>
-              <td><input value={house.bill_no} /></td>
-              <td>{house.billing_month}</td>
+              <td>{b.full_name}</td>
+              <td>{b.house_no}</td>
+              <td>{b.bill_no}</td>
+              <td>{b.bill_date?.substring(0, 10)}</td>
+              <td>₹{b.bill_amount}</td>
             </tr>
           ))}
-        </tbody>
-      </table>
-
-      <h2>Monthly Finance Summary</h2>
-      <table className="admin-table">
-        <thead>
-          <tr>
-            <th>Month</th>
-            <th>Amount Received</th>
-            <th>Fuel Cost</th>
-            <th>Labour Cost</th>
-            <th>Transport Cost</th>
-            <th>Total Revenue</th>
-            <th>Total Profit</th>
-          </tr>
-        </thead>
-        <tbody>
-          {financeData.map((fin, idx) => {
-            const totalExpenses = fin.fuel_cost + fin.labour_cost + fin.transport_cost;
-            const revenue = fin.amount_received - totalExpenses;
-            const profit = revenue; 
-            return (
-              <tr key={idx}>
-                <td>{fin.month}</td>
-                <td><input value={fin.amount_received} /></td>
-                <td><input value={fin.fuel_cost} /></td>
-                <td><input value={fin.labour_cost} /></td>
-                <td><input value={fin.transport_cost} /></td>
-                <td>{revenue}</td>
-                <td>{profit}</td>
-              </tr>
-            );
-          })}
         </tbody>
       </table>
     </div>
   );
 };
 
-export default AdminPage; 
+export default AdminPage;

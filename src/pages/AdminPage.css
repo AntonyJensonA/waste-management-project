@@ -1,46 +1,91 @@
 .admin-container {
-    padding: 20px;
-    max-width: 1000px;
-    margin: auto;
-    font-family: Arial, sans-serif;
-  }
-  
-  .admin-container h1 {
-    text-align: center;
-    color: green;
-    margin-bottom: 20px;
-  }
-  
-  .admin-container h2 {
-    margin-top: 30px;
-    color: #333;
-  }
-  
-  .admin-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-  }
-  
-  .admin-table th, .admin-table td {
-    border: 1px solid #ccc;
-    padding: 10px;
-    text-align: center;
-  }
-  
-  .admin-table th {
-    background-color: #f0f0f0;
-  }
-  
-  .admin-table input, .admin-table select {
-    width: 90%;
-    padding: 5px;
-    font-size: 14px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-  }
-  
-  .admin-table tr:hover {
-    background-color: #f9f9f9;
-  }
-  
+  padding: 20px;
+  max-width: 1000px;
+  margin: auto;
+  font-family: Arial, sans-serif;
+}
+
+.admin-container h1 {
+  text-align: center;
+  color: green;
+  margin-bottom: 20px;
+}
+
+.admin-container h2 {
+  margin-top: 30px;
+  color: #333;
+}
+
+/* Filter Section Styling */
+.filter-container {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 20px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.filter-container label {
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  color: #333;
+}
+
+.filter-container input[type="date"],
+.filter-container input[type="month"] {
+  padding: 6px 8px;
+  font-size: 14px;
+  margin-top: 4px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 160px;
+}
+
+/* Table Styling */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.admin-table th, .admin-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+.admin-table th {
+  background-color: #f0f0f0;
+}
+
+.admin-table tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* Error Message Styling */
+.error-message {
+  color: red;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+/* Gauges Section Styling */
+.gauges-container {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.gauge-card {
+  width: 200px;
+  text-align: center;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

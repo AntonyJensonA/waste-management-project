@@ -11,6 +11,8 @@ import { Sign } from './pages/Sign';
 import UserPage from './pages/UserPage';
 import AdminPage from './pages/AdminPage';
 import { ToastContainer } from 'react-toastify';
+import  WorkerLogin  from './pages/WorkerLogin';
+import WorkerPage from './pages/WorkerPage';
 
 
 
@@ -27,7 +29,9 @@ const App = () => {
         <Route path="/login/admin" element={<AdminLogin />} />
         <Route path="/login/signup" element={<Sign/>} />
         <Route path="/login/user/userpage" element={<UserPage/>} />
-        <Route path="/login/admin/adminpage" element={<AdminPage />} /> 
+        <Route path="/login/admin/adminpage" element={<AdminPage />} />
+        <Route path="/login/worker" element={<WorkerLogin />} />
+        <Route path="/login/worker/workerpage" element={<WorkerPage />} /> 
       </Routes>
       <ToastContainer
         position='top-center'
