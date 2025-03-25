@@ -90,7 +90,12 @@ const WorkerPage = () => {
       .then(() => toast.success('Bill updated'))
       .catch(() => toast.error('Update failed'));
   };
-  
+  const handleLogout = () => {
+    // Example: Clear auth token/session data
+    localStorage.removeItem('authToken');
+    // Redirect to login page
+    window.location.href = '/login';
+  };
   
   
   return (
@@ -158,6 +163,9 @@ const WorkerPage = () => {
           </tr>
         </tbody>
       </table>
+      <div className="admin-header">
+  <button className="logout-button" onClick={handleLogout}>🚪 Logout</button>
+</div>
     </div>
   );
 };

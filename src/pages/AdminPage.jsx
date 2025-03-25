@@ -11,6 +11,7 @@ const AdminPage = () => {
   const [costData, setCostData] = useState({ fuel_cost: 0, labor_cost: 0, other_cost: 0 });
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedMonth, setSelectedMonth] = useState('');
+  const [wasteRequests, setWasteRequests] = useState([]);
 
   // Fetch data
   useEffect(() => {
@@ -74,18 +75,39 @@ const AdminPage = () => {
       .then(() => toast.success('Costs updated'))
       .catch(() => toast.error('Failed to update costs'));
   };
+  useEffect(() => {
+    axios.get('http://localhost:3000/api/requests/waste-requests')
+      .then(res => setWasteRequests(res.data))
+      .catch(() => toast.error('Failed to fetch requests'));
+  }, []);
+  
+  // Accept request
+  const handleAcceptRequest = (id) => {
+    axios.put(`http://localhost:3000/api/requests/accept-request/${id}`)
+      .then(() => {
+        toast.success('Request accepted');
+        setWasteRequests(prev => prev.map(r => r.id === id ? { ...r, status: 'Accepted' } : r));
+      })
+      .catch(() => toast.error('Failed to accept request'));
+  };
+  const handleLogout = () => {
+    // Example: Clear auth token/session data
+    localStorage.removeItem('authToken');
+    // Redirect to login page
+    window.location.href = '/login';
+  };
+  
 
   return (
     <div className="admin-container">
       <h1>🏡 Admin Dashboard</h1>
 
       {/* Filters */}
-      <div className="filter-container">
+      
         <label>
-          📅 Filter by Date:
-          <input type="date" value={selectedDate} onChange={e => setSelectedDate(e.target.value)} />
+          <input type="date" value={selectedDate} onChange={e => setSelectedDate(e.target.value) } className="filter-container progress-bar-filters" style={{ display: 'none' }}/>
         </label>
-
+        <div className="filter-container">
         <label>
           📆 Filter Billing by Month:
           <input type="month" value={selectedMonth} onChange={e => setSelectedMonth(e.target.value)} />
@@ -167,6 +189,34 @@ const AdminPage = () => {
           ))}
         </tbody>
       </table>
+      <h2>🗂️ Waste Collection Requests</h2>
+<table className="admin-table">
+  <thead>
+    <tr>
+      <th>Full Name</th>
+      <th>House No</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {wasteRequests.map(req => (
+      <tr key={req.id}>
+        <td>{req.full_name}</td>
+        <td>{req.house_number}</td>
+        <td>{req.status}</td>
+        <td>
+          {req.status === 'Pending' && (
+            <button onClick={() => handleAcceptRequest(req.id)}>✅ Accept</button>
+          )}
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+<div className="admin-header">
+  <button className="logout-button" onClick={handleLogout}>🚪 Logout</button>
+</div>
     </div>
   );
 };

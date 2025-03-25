@@ -9,7 +9,7 @@ export const Contact = () => {
         <h1>Phone No</h1>
         <p>807848*****</p>
         <h1>Mailid</h1>
-        <p>racist@gmail.com</p> 
+        <p>abcd@gmail.com</p> 
       </div>
     </div>
   )

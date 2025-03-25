@@ -45,25 +45,38 @@
 }
 
 /* Table Styling */
+/* Updated Table Styling */
 .admin-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   margin-top: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .admin-table th, .admin-table td {
-  border: 1px solid #ccc;
-  padding: 10px;
+  padding: 12px 15px;
   text-align: center;
+  font-size: 15px;
 }
 
 .admin-table th {
-  background-color: #f0f0f0;
+  background-color: #28a745; /* Green Header */
+  color: white;
+  font-weight: 600;
+}
+
+.admin-table tr:nth-child(even) {
+  background-color: #f2f2f2;
 }
 
 .admin-table tr:hover {
-  background-color: #f9f9f9;
+  background-color: #e9ffe9;
+  transition: background-color 0.3s ease;
 }
+
 
 /* Error Message Styling */
 .error-message {
@@ -88,4 +101,87 @@
   background-color: #f8f9fa;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.cost-form {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 30px auto;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+.cost-form h2 {
+  color: #333;
+  font-size: 20px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.cost-form label {
+  font-weight: 600;
+  color: #444;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cost-form input[type="number"] {
+  padding: 8px 10px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 120px;
+  transition: border-color 0.3s ease;
+}
+
+.cost-form input[type="number"]:focus {
+  border-color: #28a745;
+  outline: none;
+}
+
+.cost-form button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cost-form button:hover {
+  background-color: #218838;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 0 10px;
+}
+
+.logout-button {
+  background-color: #dc3545;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.logout-button:hover {
+  background-color: #c82333;
+  transform: scale(1.05);
 }

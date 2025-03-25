@@ -8,6 +8,7 @@ import billingRoutes from './routes/billingRoutes.js';
 import createAllTable from './utils/dbUtils.js';
 import expenseRoutes from './routes/expenseRoutes.js';
 import costRoutes from './routes/costRoutes.js';
+import requestRoutes from './routes/requestRoutes.js';
 
 const app = express();
 app.use(cors());
@@ -18,7 +19,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/billing', billingRoutes);
 app.use('/api/expenses', expenseRoutes);
 app.use('/api/costs', costRoutes);
-
+app.use('/api/requests', requestRoutes);
 
 // Start server and initialize DB
 app.listen(3000, async () => {

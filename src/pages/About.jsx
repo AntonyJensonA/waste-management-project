@@ -7,7 +7,7 @@ export const About = () => {
       <img src={img1}  alt="question mark" />
       <div className='text'>
         <h1>About Us </h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore magni accusamus adipisci explicabo sunt eaque odio reprehenderit consequatur quibusdam illum autem facere eligendi laborum laudantium cumque voluptate placeat, esse ipsam hic ipsum ducimus. Accusamus incidunt ullam quos, aperiam neque, odit eos vitae necessitatibus quasi animi nulla nesciunt deserunt, odio aliquid laudantium deleniti ea adipisci molestias. Officia, animi perspiciatis. Odit error eum optio magni molestiae eius voluptate architecto, dolor similique ipsum velit, quae assumenda consequatur animi.
+        <p> This Municipal Waste Management System allows users to efficiently manage waste disposal. Users can view their billing details, including payment history, and request waste collection services for a fixed fee of ₹200. The platform streamlines communication between residents and waste management authorities, promoting cleaner neighborhoods through organized, timely waste collection.
         </p>
       </div>
       

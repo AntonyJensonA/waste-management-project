@@ -2,8 +2,10 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { jsPDF } from 'jspdf';
-import 'jspdf-autotable';
+import 'jspdf-autotable';  // ✅ This automatically attaches autoTable to jsPDF
 import './UserPage.css'
+  
+
 const UserPage = () => {
   const [userData, setUserData] = useState(null);
   const [billingData, setBillingData] = useState([]);
@@ -83,6 +85,7 @@ const UserPage = () => {
 
   const exportPDF = () => {
     const doc = new jsPDF();
+    
     doc.text('Billing Details', 14, 16);
     doc.autoTable({
       startY: 20,
@@ -93,14 +96,31 @@ const UserPage = () => {
         bill.bill_amount
       ])
     });
+    
     doc.save('billing_details.pdf');
   };
-
+  
+  
+  
   // Generate unique years from billing data
   const uniqueYears = [...new Set(billingData.map((bill) =>
     new Date(bill.bill_date).getFullYear().toString()
   ))];
 
+  const handleRequestWasteCollection = () => {
+    axios.post('http://localhost:3000/api/requests/request-waste', {
+      full_name: userData.full_name,
+      house_number: userData.house_number
+    })
+    .then(() => toast.success("Waste collection requested!"))
+    .catch(() => toast.error("Request failed"));
+  };
+  const handleLogout = () => {
+    // Example: Clear auth token/session data
+    localStorage.removeItem('authToken');
+    // Redirect to login page
+    window.location.href = '/login';
+  };
   return (
     <div className="user-container">
       <h1>Welcome to User Page</h1>
@@ -160,7 +180,15 @@ const UserPage = () => {
         ) : (
           <p>No billing data found for selected filters.</p>
         )}
+        <div className="button-container">
+  <button className="request-btn" onClick={handleRequestWasteCollection}>
+    🗑️ Request Waste Collection
+  </button>
+</div>
       </div>
+      <div className="admin-header">
+  <button className="logout-button" onClick={handleLogout}>🚪 Logout</button>
+</div>
     </div>
   );
 };

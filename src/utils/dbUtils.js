@@ -30,6 +30,17 @@ const billingTableQuery = `CREATE TABLE IF NOT EXISTS billing (
     bill_amount FLOAT
 );`;
 
+
+const wasteRequestTableQuery = `
+CREATE TABLE IF NOT EXISTS waste_requests (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  full_name VARCHAR(255) NOT NULL,
+  house_number VARCHAR(50) NOT NULL,
+  status ENUM('Pending', 'Accepted') DEFAULT 'Pending',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);`;
+
+
 const createTable = async (tableName, query) => {
     try {
         await pool.query(query);
@@ -44,11 +55,14 @@ const createAllTable = async () => {
         await createTable("Signup", signupTableQuery);
         await createTable("Waste", wasteTableQuery);
         await createTable("Billing", billingTableQuery);
+        await createTable("Waste Requests", wasteRequestTableQuery);
         console.log("✅ All tables created or already exist");
     } catch (error) {
         console.log("❌ Error creating tables:", error);
         throw error;
     }
 };
+
+
 
 export default createAllTable;

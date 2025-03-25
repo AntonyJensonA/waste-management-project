@@ -2,25 +2,37 @@
 .worker-container {
   max-width: 1200px;
   margin: 20px auto;
-  padding: 20px;
+  padding: 25px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f9f9f9;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* Headings */
 .worker-container h1 {
   text-align: center;
   color: #2c3e50;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  font-size: 28px;
 }
 
 .worker-container h2 {
-  margin-top: 30px;
-  color: #34495e;
+  margin-top: 40px;
+  color: #2c3e50;
   border-left: 5px solid #4caf50;
-  padding-left: 10px;
+  padding-left: 12px;
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+/* Section Cards */
+.section-card {
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
 }
 
 /* Table Styling */
@@ -36,24 +48,34 @@
 .worker-table th,
 .worker-table td {
   border: 1px solid #ddd;
-  padding: 8px;
+  padding: 10px;
   text-align: center;
   max-width: 120px;
+  vertical-align: middle;
 }
 
 .worker-table th {
   background-color: #4caf50;
   color: white;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 /* Inputs inside table */
 .worker-table input {
-  width: 90%;
-  padding: 5px;
+  width: 100%;
+  padding: 6px;
   font-size: 13px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  box-sizing: border-box;
+  background-color: #fcfcfc;
+  transition: border 0.2s ease-in-out;
+}
+
+.worker-table input:focus {
+  outline: none;
+  border-color: #4caf50;
+  background-color: #fff;
 }
 
 /* Buttons */
@@ -65,11 +87,12 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background 0.2s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 .worker-table button:hover {
   background-color: #2980b9;
+  transform: scale(1.05);
 }
 
 /* Responsive Table Scroll */
@@ -82,11 +105,11 @@
 
   .worker-table th,
   .worker-table td {
-    min-width: 100px;
+    min-width: 120px;
   }
 
   .worker-container h1 {
-    font-size: 20px;
+    font-size: 22px;
   }
 
   .worker-container h2 {
@@ -94,18 +117,51 @@
   }
 }
 
-/* Toastify Fix (Optional: Improve positioning) */
+/* Toastify Positioning */
 .Toastify__toast-container {
   top: 80px;
 }
 
 /* Table Row Hover */
 .worker-table tbody tr:hover {
-  background-color: #f1f1f1;
+  background-color: #f5f5f5;
+  transition: background-color 0.2s ease-in-out;
 }
 
-/* Optional: Make % visually stand out */
+/* Recycle Percentage Highlight */
 .worker-table td:nth-child(7) {
   font-weight: bold;
   color: #2e7d32;
+  background-color: #e8f5e9;
+  border-left: 3px solid #4caf50;
+}
+
+/* Add subtle table borders for better separation */
+.worker-table th, .worker-table td {
+  border: 1px solid #e0e0e0;
+}
+
+/* Optional: Smooth section transitions */
+.section-card {
+  transition: box-shadow 0.3s ease;
+}
+
+.section-card:hover {
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+.logout-button {
+  background-color: #dc3545;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.logout-button:hover {
+  background-color: #c82333;
+  transform: scale(1.05);
 }
